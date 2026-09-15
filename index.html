@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0C2340">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Sydney &amp; Melbourne 2026</title>
+<style>
+:root{
+  --navy:#0C2340;--navy2:#173A66;--panel:#0A1A2B;--gold:#E9C349;
+  --blue:#2277CF;--badge:#DBEAF9;--bg:#F4F8FC;--ink:#12263A;--body:#3A5064;--line:#DDE7F1;
+  --nav:64px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16px;line-height:1.5;
+  padding-bottom:calc(var(--nav) + env(safe-area-inset-bottom));
+}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{color:var(--blue)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:var(--navy);color:#fff;overflow:hidden}
+.hero .bg{position:absolute;inset:0}
+.hero .bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,26,43,.55),rgba(10,26,43,.2) 38%,rgba(10,26,43,.96))}
+.hero .in{position:relative;padding:38px 20px 22px;text-align:center}
+.hero h1{margin:0;font-size:30px;font-weight:800;letter-spacing:.06em;color:var(--gold);line-height:1.15}
+.hero p{margin:8px 0 0;font-size:13px;color:#C3DAF2;letter-spacing:.04em}
+.count{display:inline-block;margin-top:14px;padding:7px 16px;border:1px solid rgba(233,195,73,.5);
+  border-radius:999px;font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.06em}
+
+/* ---------- flights ---------- */
+.flights{display:flex;gap:8px;padding:14px;overflow-x:auto;background:var(--navy);scrollbar-width:none}
+.flights::-webkit-scrollbar{display:none}
+.fl{flex:0 0 auto;background:#fff;border-radius:10px;padding:10px 14px;min-width:150px}
+.fl b{display:block;font-size:15px;color:var(--navy);font-weight:800}
+.fl span{display:block;font-size:11px;color:var(--body);margin-top:3px}
+.fl em{font-style:normal;color:var(--blue);font-weight:700}
+
+/* ---------- sections/pages ---------- */
+.page{display:none;padding:14px 14px 20px}
+.page.on{display:block}
+.chap{background:var(--navy);color:var(--gold);border-radius:10px;padding:11px 16px;
+  font-size:13px;font-weight:800;letter-spacing:.1em;margin:16px 0 12px}
+.chap:first-child{margin-top:2px}
+
+/* ---------- day card ---------- */
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  margin-bottom:12px;box-shadow:0 2px 10px rgba(12,35,64,.06)}
+.shot{position:relative;height:150px;background:linear-gradient(145deg,#17406e,#0A1A2B)}
+.shot::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,26,43,.35),rgba(10,26,43,.02) 45%,rgba(10,26,43,.88))}
+.chip{position:absolute;z-index:2;top:10px;left:10px;background:rgba(10,26,43,.75);
+  border:1px solid rgba(233,195,73,.45);border-radius:999px;padding:4px 11px;
+  font-size:10px;font-weight:800;color:var(--gold);letter-spacing:.1em}
+.cap{position:absolute;z-index:2;left:0;right:0;bottom:0;padding:12px 14px}
+.cap small{display:block;font-size:10px;letter-spacing:.16em;color:var(--gold);font-weight:700;text-transform:uppercase}
+.cap h3{margin:3px 0 0;font-size:20px;color:#fff;font-weight:800;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.rows{padding:6px 14px 12px}
+.row{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.row .t{flex:0 0 74px;font-size:12px;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums;padding-top:1px}
+.row .d{flex:1;font-size:14.5px;color:var(--body)}
+.row .d b{color:var(--ink);font-weight:700}
+
+/* ---------- rute ---------- */
+.day{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.dh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.dh b{font-size:15px;color:var(--navy)}
+.dh span{font-size:12px;color:var(--blue);font-weight:700}
+.stop{display:flex;gap:12px}
+.stop .col{flex:0 0 26px;display:flex;flex-direction:column;align-items:center}
+.stop .dot{width:26px;height:26px;border-radius:50%;background:var(--navy);color:var(--gold);
+  font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.stop .ln{flex:1;width:2px;background:repeating-linear-gradient(180deg,#A9C5E0 0 4px,transparent 4px 8px);margin:3px 0}
+.stop .bd{flex:1;padding-bottom:14px}
+.stop .nm{font-size:15px;font-weight:700;color:var(--ink)}
+.stop .tm{font-size:12px;color:#7E93A8;margin-top:1px}
+.gos{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.go{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--blue);
+  border:1px solid #C4DCF4;background:#F2F8FE;border-radius:999px;padding:5px 12px;text-decoration:none}
+.go.nav{background:var(--navy);border-color:var(--navy);color:var(--gold)}
+.move{border-top:1px solid var(--line);padding-top:11px;margin-top:2px}
+.move .lb{font-size:10.5px;letter-spacing:.12em;font-weight:800;color:#7E93A8;margin-bottom:4px}
+.leg{display:flex;gap:9px;align-items:flex-start;padding:7px 0}
+.leg .md{flex:0 0 auto;font-size:9.5px;font-weight:800;letter-spacing:.05em;padding:4px 8px;
+  border-radius:6px;color:#fff;margin-top:1px;white-space:nowrap}
+.md.walk{background:#2E7D5B}.md.tram{background:#2277CF}.md.uber{background:#0C2340}
+.md.fly{background:#8A3B14}.md.free{background:#B98F12}.md.bus{background:#5B6B7C}
+.leg .tx{flex:1;font-size:13.5px;color:var(--ink);font-weight:600;line-height:1.35}
+.leg .tx span{display:block;font-size:12px;color:#7E93A8;font-weight:400;margin-top:2px}
+.locs{border-top:1px solid var(--line);padding-top:10px;margin-top:8px}
+.eat{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:10px}
+.eat .nm{font-size:15.5px;font-weight:800;color:var(--ink);line-height:1.25}
+.tag{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.05em;padding:3px 7px;
+  border-radius:5px;color:#fff;margin-left:6px;vertical-align:2px;white-space:nowrap}
+.tag.h{background:#2E7D5B}.tag.n{background:#B98F12}.tag.id{background:#C1440E}
+.eat .ad{font-size:12.5px;color:#7E93A8;margin-top:4px}
+.eat .ds{font-size:13.5px;color:var(--body);margin-top:7px;line-height:1.45}
+.area{font-size:11px;letter-spacing:.14em;font-weight:800;color:var(--navy);
+  margin:16px 0 9px;padding-left:2px}
+.locs .lb{font-size:10.5px;letter-spacing:.12em;font-weight:800;color:#7E93A8;margin-bottom:7px}
+.locs .gos{margin-top:0}
+.locs .go{font-size:12.5px}
+.mode{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;color:#5B7891;
+  background:#EEF4FA;border-radius:6px;padding:4px 9px}
+.stop:last-child .ln{display:none}
+.stop:last-child .bd{padding-bottom:0}
+
+/* ---------- tabel & catatan ---------- */
+.tbl{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.tbl .hd{background:var(--navy);color:var(--gold);padding:11px 14px;font-size:12px;font-weight:800;letter-spacing:.08em}
+.tr{display:flex;gap:10px;padding:11px 14px;border-top:1px solid var(--line);font-size:14px}
+.tr:nth-child(2){border-top:0}
+.tr.hi{background:#FFFAEC}
+.tr .m{flex:1}
+.tr .m b{display:block;color:var(--ink)}
+.tr .m span{display:block;font-size:12.5px;color:var(--body);margin-top:2px}
+.tr .p{flex:0 0 92px;text-align:right;font-weight:800;color:var(--blue);font-size:13px}
+.note{background:#fff;border-left:4px solid var(--gold);border-radius:0 12px 12px 0;
+  padding:13px 15px;font-size:14px;color:var(--body);margin-bottom:12px}
+.note b{color:var(--navy)}
+.warn{background:var(--navy);color:#CFE0F2;border-radius:14px;padding:15px 16px;margin-bottom:12px}
+.warn h4{margin:0 0 10px;color:var(--gold);font-size:13px;letter-spacing:.08em}
+.warn p{margin:0 0 10px;font-size:14px}
+.warn p:last-child{margin-bottom:0}
+.warn b{color:#fff}
+
+/* ---------- bottom nav ---------- */
+nav{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;background:rgba(12,35,64,.97);
+  backdrop-filter:blur(8px);border-top:1px solid rgba(233,195,73,.25);
+  padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;background:none;border:0;color:#8FAEC9;font-size:10px;font-weight:700;
+  letter-spacing:.06em;padding:10px 4px 12px;font-family:inherit;cursor:pointer}
+nav button svg{display:block;margin:0 auto 4px;width:21px;height:21px;fill:none;
+  stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+nav button.on{color:var(--gold)}
+.top{position:fixed;right:14px;bottom:calc(var(--nav) + 14px + env(safe-area-inset-bottom));z-index:40;
+  width:42px;height:42px;border-radius:50%;background:var(--navy);color:var(--gold);border:0;
+  font-size:17px;box-shadow:0 4px 14px rgba(12,35,64,.35);display:none;cursor:pointer}
+.top.on{display:block}
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="bg">
+    <img referrerpolicy="no-referrer" alt=""
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Sydney_Opera_House_%2830111403413%29.jpg/1280px-Sydney_Opera_House_%2830111403413%29.jpg">
+  </div>
+  <div class="in">
+    <h1>SYDNEY &amp;<br>MELBOURNE</h1>
+    <p>14 – 23 SEPTEMBER 2026 · 10 HARI</p>
+    <div class="count" id="count">Menghitung…</div>
+  </div>
+</header>
+
+<div class="flights">
+  <div class="fl"><b>CGK → SYD</b><span><em>QF 42</em> · 14 Sep</span><span>20.45 – 06.30</span></div>
+  <div class="fl"><b>SYD → MEL</b><span><em>QF 439</em> · 18 Sep</span><span>11.45 – 13.20</span></div>
+  <div class="fl"><b>MEL → CGK</b><span><em>QF 39</em> · 23 Sep</span><span>14.50 – 19.15</span></div>
+</div>
+
+<!-- ================= JADWAL ================= -->
+<section class="page on" id="p-jadwal">
+
+  <div class="note" style="margin-bottom:12px">Ketuk <b>📍 nama tempat</b> di bawah tiap hari untuk membuka lokasinya di Google Maps. Di tab <b>Rute</b> tersedia juga tombol navigasi langkah demi langkah.</div>
+  <div class="chap">BAGIAN 1 : SYDNEY</div>
+
+  <article class="card">
+    <div class="shot">
+      <img loading="lazy" referrerpolicy="no-referrer" alt="Qantas A330"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Qantas_%28VH-QPK%29_Airbus_A330-303_arriving_at_Sydney_Airport.jpg/1280px-Qantas_%28VH-QPK%29_Airbus_A330-303_arriving_at_Sydney_Airport.jpg">
+      <div class="chip">SEN · 14 SEP</div>
+      <div class="cap"><small>Soekarno-Hatta CGK T3</small><h3>Keberangkatan</h3></div>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">17.45–20.45</div><div class="d">Berkumpul di <b>Terminal 3 CGK</b>, check-in bagasi &amp; imigrasi.</div></div>
+      <div class="row"><div class="t">20.45</div><div class="d">Take-off penerbangan malam <b>Qantas QF42</b> menuju Sydney.</div></div>
+    <div class="move"><div class="lb">CARA BERPINDAH</div><div class="leg"><div class="md fly">MOBIL</div><div class="tx">Rumah → Terminal 3 CGK<span>Berangkat 3 jam sebelum jam terbang. Penerbangan internasional, antre imigrasi bisa panjang.</span></div></div></div><div class="locs"><div class="lb">BUKA LOKASI DI PETA</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-6.1256,106.6559">📍 Terminal 3 CGK</a></div></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="shot">
+      <img loading="lazy" referrerpolicy="no-referrer" alt="The Rocks"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Playfair_Street_-_The_Rocks%2C_Sydney%2C_NSW_%287875760192%29.jpg/1280px-Playfair_Street_-_The_Rocks%2C_Sydney%2C_NSW_%287875760192%29.jpg">
+      <div class="chip">HARI 1 · SEL 15 SEP</div>
+      <div class="cap"><small>Kedatangan &amp; Silaturahmi</small><h3>The Rocks</h3></div>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">06.30–08.30</div><div class="d">Mendarat di <b>Sydney Airport</b>, imigrasi &amp; bagasi.</div></div>
+      <div class="row"><div class="t">10.00–14.00</div><div class="d">Silaturahmi rumah <b>Tante Wati</b> &amp; makan siang bersama.</div></div>
+      <div class="row"><div class="t">15.00–18.30</div><div class="d">Check-in apartemen <b>Ultimo</b> &amp; istirahat.</div></div>
+      <div class="row"><div class="t">19.00–22.00</div><div class="d">Jalan santai &amp; dinner di kawasan bersejarah <b>The Rocks</b>.</div></div>
+    <div class="move"><div class="lb">CARA BERPINDAH</div><div class="leg"><div class="md uber">UBER</div><div class="tx">Sydney Airport → Ultimo<span>A$45–60 · 20 menit. Dianjurkan hari ini: langsung sampai pintu, tidak perlu angkat koper naik-turun tangga.</span></div></div><div class="leg"><div class="md uber">UBER</div><div class="tx">Ultimo → kediaman Tante Wati<span>Sesuaikan alamat Morningside Parade di aplikasi. Pesan pulang-pergi agar tidak menunggu di jalan.</span></div></div><div class="leg"><div class="md tram">TREM L2</div><div class="tx">Ultimo → The Rocks<span>A$2,24 · 12 menit ke Circular Quay, lalu jalan 5 menit menyusuri tepi air. Rutenya datar.</span></div></div><div class="leg"><div class="md uber">UBER</div><div class="tx">The Rocks → Ultimo (malam)<span>A$15–20. Lebih nyaman daripada menunggu trem malam hari.</span></div></div></div><div class="locs"><div class="lb">BUKA LOKASI DI PETA</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.859062,151.2080421">📍 The Rocks</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8817,151.1978">📍 Ultimo</a></div></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="shot">
+      <img loading="lazy" referrerpolicy="no-referrer" alt="Sydney Opera House"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Sydney_opera_house_side_view.jpg/1280px-Sydney_opera_house_side_view.jpg">
+      <div class="chip">HARI 2 · RAB 16 SEP</div>
+      <div class="cap"><small>City Highlights</small><h3>Opera House</h3></div>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">09.00–12.00</div><div class="d">Tur <b>Sydney Opera House</b> &amp; Harbour Cruise.</div></div>
+      <div class="row"><div class="t">12.00–15.30</div><div class="d">Lunch <b>Circular Quay</b> &amp; lanskap Observatory Hill.</div></div>
+      <div class="row"><div class="t">15.30–20.30</div><div class="d">Jelajah pedestrian Circular Quay &amp; dinner malam.</div></div>
+    <div class="move"><div class="lb">CARA BERPINDAH</div><div class="leg"><div class="md tram">TREM L2</div><div class="tx">Ultimo → Opera House<span>A$2,24 · 15 menit ke Circular Quay, lanjut jalan 8 menit. Trem lantai rata tanpa tangga.</span></div></div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">Opera House → Circular Quay<span>8 menit · datar sepenuhnya, banyak bangku untuk istirahat.</span></div></div><div class="leg"><div class="md uber">UBER</div><div class="tx">Circular Quay → Observatory Hill<span>A$12–15 · 5 menit. Dianjurkan: jalan kaki ke sini menanjak cukup terjal.</span></div></div><div class="leg"><div class="md tram">TREM</div><div class="tx">Observatory Hill → Ultimo<span>A$2,24 · turun ke halte Wynyard atau Circular Quay lebih dulu.</span></div></div></div><div class="locs"><div class="lb">BUKA LOKASI DI PETA</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8567844,151.2152967">📍 Opera House</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8611374,151.2126457">📍 Circular Quay</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8594047,151.2048859">📍 Observatory Hill</a></div></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="shot">
+      <img loading="lazy" referrerpolicy="no-referrer" alt="Queen Victoria Building"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Sydney_%28AU%29%2C_Queen_Victoria_Building_--_2019_--_3580.jpg/1280px-Sydney_%28AU%29%2C_Queen_Victoria_Building_--_2019_--_3580.jpg">
+      <div class="chip">HARI 3 · KAM 17 SEP</div>
+      <div class="cap"><small>Heritage &amp; Shopping</small><h3>Queen Victoria Building</h3></div>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">10.00–12.30</div><div class="d">Souvenir di <b>Paddy's Market</b> &amp; arsitektur QVB. <b>Catatan: pasar buka pukul 10.00.</b></div></div>
+      <div class="row"><div class="t">13.30–17.30</div><div class="d"><b>Hyde Park</b>, St. Mary's Cathedral &amp; Australian Museum.</div></div>
+      <div class="row"><div class="t">17.30–20.30</div><div class="d">Jalan sore &amp; dinner tepi perairan <b>Darling Harbour</b>.</div></div>
+    <div class="move"><div class="lb">CARA BERPINDAH</div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">Ultimo → Paddy's Market<span>10 menit · datar. Tidak perlu kendaraan.</span></div></div><div class="leg"><div class="md tram">TREM L2</div><div class="tx">Paddy's Market → QVB<span>A$2,24 · 6 menit. Alternatif jalan kaki 12 menit.</span></div></div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">QVB → Hyde Park & St Mary's<span>7 menit · trotoar lebar dan rata.</span></div></div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">Hyde Park → Australian Museum<span>4 menit · tepat di seberang taman.</span></div></div><div class="leg"><div class="md uber">UBER</div><div class="tx">Museum → Darling Harbour<span>A$12 · 7 menit. Dianjurkan karena kaki sudah lelah setelah seharian.</span></div></div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">Darling Harbour → Ultimo<span>12 menit · datar dan bebas kendaraan.</span></div></div></div><div class="locs"><div class="lb">BUKA LOKASI DI PETA</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8800089,151.2035622">📍 Paddy's Market</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8717161,151.2067008">📍 QVB</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8715202,151.2116243">📍 Hyde Park</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.873917,151.212702">📍 Australian Museum</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.87488,151.2009">📍 Darling Harbour</a></div></div>
+    </div>
+  </article>
+
+  <div class="chap">BAGIAN 2 : MELBOURNE</div>
+
+  <article class="card">
+    <div class="shot">
+      <img loading="lazy" referrerpolicy="no-referrer" alt="Docklands Melbourne"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/42_Docklands_city_skyline_in_Melbourne%2C_Australia_-_free_photo_with_attribution.jpg/1280px-42_Docklands_city_skyline_in_Melbourne%2C_Australia_-_free_photo_with_attribution.jpg">
+      <div class="chip">HARI 4 · JUM 18 SEP</div>
+      <div class="cap"><small>Pindah Kota</small><h3>Menuju Melbourne</h3></div>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">08.00–09.15</div><div class="d">Sarapan &amp; jalan santai terakhir di <b>Haymarket</b>.</div></div>
+      <div class="row"><div class="t">11.45–13.20</div><div class="d">Flight <b>Qantas QF439</b> Sydney ke Melbourne.</div></div>
+      <div class="row"><div class="t">15.00–20.30</div><div class="d">Check-in hotel, <b>Docklands</b> &amp; DFO Spencer Outlet.</div></div>
+    <div class="move"><div class="lb">CARA BERPINDAH</div><div class="leg"><div class="md uber">UBER</div><div class="tx">Ultimo → Sydney Airport<span>A$45–60 · berangkat 2,5 jam sebelum terbang. Bawa koper, hindari kereta.</span></div></div><div class="leg"><div class="md uber">UBER</div><div class="tx">Melbourne Airport → hotel<span>A$60–75 untuk serombongan · 30 menit. Setara 3 tiket SkyBus tapi langsung sampai.</span></div></div><div class="leg"><div class="md bus">SKYBUS</div><div class="tx">Alternatif dari bandara<span>±A$23 per orang · 25 menit ke Southern Cross. Tidak ikut diskon setengah harga.</span></div></div><div class="leg"><div class="md free">TREM GRATIS</div><div class="tx">DFO Spencer → Docklands<span>Gratis · 6 menit. Sudah masuk Free Tram Zone.</span></div></div></div><div class="locs"><div class="lb">BUKA LOKASI DI PETA</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8188,144.9525">📍 DFO Spencer St</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8156,144.9425">📍 Docklands</a></div></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="shot">
+      <img loading="lazy" referrerpolicy="no-referrer" alt="Flinders Street Station"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Flinders_St_Station_Melbourne._%2820484830004%29.jpg/1280px-Flinders_St_Station_Melbourne._%2820484830004%29.jpg">
+      <div class="chip">HARI 5 · SAB 19 SEP</div>
+      <div class="cap"><small>City Experience</small><h3>Flinders St Station</h3></div>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">08.30–11.30</div><div class="d">Kulineran &amp; belanja <b>Queen Victoria Market</b>.</div></div>
+      <div class="row"><div class="t">11.30–13.00</div><div class="d">Foto di <b>Flinders St Station</b> &amp; Federation Square.</div></div>
+      <div class="row"><div class="t">13.30–19.00</div><div class="d">Shopping <b>DFO South Wharf</b>.</div></div>
+    <div class="move"><div class="lb">CARA BERPINDAH</div><div class="leg"><div class="md free">TREM GRATIS</div><div class="tx">Hotel → Queen Victoria Market<span>Gratis · 10 menit. Naik rute 19, 57, atau 59 di Elizabeth Street.</span></div></div><div class="leg"><div class="md free">TREM GRATIS</div><div class="tx">QVM → Flinders St Station<span>Gratis · 10 menit turun Swanston Street. Urutan ini sudah diperbaiki agar tidak balik arah.</span></div></div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">Flinders St → DFO South Wharf<span>10 menit menyusuri tepi Sungai Yarra, datar dan teduh.</span></div></div><div class="leg"><div class="md uber">UBER</div><div class="tx">Alternatif ke South Wharf<span>A$12–18 kalau hujan atau sudah lelah. Kawasan ini di luar zona trem gratis.</span></div></div></div><div class="locs"><div class="lb">BUKA LOKASI DI PETA</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8075798,144.956785">📍 Queen Victoria Market</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8182711,144.9670618">📍 Flinders St Station</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8246173,144.9499309">📍 DFO South Wharf</a></div></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="shot">
+      <img loading="lazy" referrerpolicy="no-referrer" alt="State Library Victoria"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/State_Library_of_Victoria_La_Trobe_Reading_room_5th_floor_view.jpg/1280px-State_Library_of_Victoria_La_Trobe_Reading_room_5th_floor_view.jpg">
+      <div class="chip">HARI 6 · MIN 20 SEP</div>
+      <div class="cap"><small>Culture &amp; Silaturahmi</small><h3>State Library Victoria</h3></div>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">10.00–12.30</div><div class="d">Wisata arsitektur dome megah <b>State Library Victoria</b>.</div></div>
+      <div class="row"><div class="t">12.30–20.30</div><div class="d">Makan siang kawasan <b>CBD</b>, meetup <b>Mas Yudi</b> &amp; dinner.</div></div>
+    <div class="move"><div class="lb">CARA BERPINDAH</div><div class="leg"><div class="md free">TREM GRATIS</div><div class="tx">Hotel → State Library Victoria<span>Gratis · turun di halte Melbourne Central, tepat di depan gedung.</span></div></div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">State Library → Bourke St Mall<span>8 menit menurun landai. Bisa juga trem gratis 3 menit.</span></div></div><div class="leg"><div class="md free">TREM 35</div><div class="tx">Keliling CBD<span>Gratis · trem heritage kayu, tiap 12 menit. Cocok untuk duduk santai tanpa jalan.</span></div></div></div><div class="locs"><div class="lb">BUKA LOKASI DI PETA</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8097255,144.9654504">📍 State Library Victoria</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8135,144.9646">📍 Bourke St Mall</a></div></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="shot">
+      <img loading="lazy" referrerpolicy="no-referrer" alt="Luna Park St Kilda"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Melbourne_Luna_Park_at_Dusk_edit.jpg/1280px-Melbourne_Luna_Park_at_Dusk_edit.jpg">
+      <div class="chip">HARI 7 · SEN 21 SEP</div>
+      <div class="cap"><small>Gardens &amp; St Kilda</small><h3>St Kilda Beach</h3></div>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">08.30–12.30</div><div class="d">Breakfast <b>Royal Botanic Gardens</b> bersama Shane Bunton.</div></div>
+      <div class="row"><div class="t">12.30–15.00</div><div class="d"><b>Shrine of Remembrance</b> &amp; National Gallery (NGV).</div></div>
+      <div class="row"><div class="t">15.30–18.30</div><div class="d">St Kilda Beach, Pier &amp; foto <b>Luna Park</b>. <b>Luna Park tutup hari Senin</b>, foto dari luar.</div></div>
+      <div class="row"><div class="t">19.00–21.00</div><div class="d">Belanja oleh-oleh di <b>Kmart</b> / Spencer Street.</div></div>
+    <div class="move"><div class="lb">CARA BERPINDAH</div><div class="leg"><div class="md tram">TREM 8</div><div class="tx">Hotel → Royal Botanic Gardens<span>A$5,70 batas harian · 15 menit lewat St Kilda Road. Wajib tap Myki, sudah di luar zona gratis.</span></div></div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">Gardens → Shrine of Remembrance<span>10 menit · ambil jalur datar, jangan keliling taman penuh.</span></div></div><div class="leg"><div class="md tram">TREM</div><div class="tx">Shrine → NGV<span>8 menit · sudah tercakup batas harian, tidak bayar lagi.</span></div></div><div class="leg"><div class="md tram">TREM 96</div><div class="tx">NGV → St Kilda Beach<span>25 menit · pilih rute ini. Tremnya lantai rendah dengan halte berperon, paling ramah lansia.</span></div></div><div class="leg"><div class="md uber">UBER</div><div class="tx">St Kilda → hotel (malam)<span>A$25–35. Dianjurkan kalau sudah lelah setelah seharian di luar.</span></div></div></div><div class="locs"><div class="lb">BUKA LOKASI DI PETA</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8302443,144.9801496">📍 Royal Botanic Gardens</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8305164,144.9734319">📍 Shrine of Remembrance</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8225942,144.9689278">📍 NGV</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8678147,144.976924">📍 St Kilda & Luna Park</a></div></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="shot">
+      <img loading="lazy" referrerpolicy="no-referrer" alt="Hosier Lane"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Hosier_Lane_Melbourne._%2825242293926%29.jpg/1280px-Hosier_Lane_Melbourne._%2825242293926%29.jpg">
+      <div class="chip">HARI 8 · SEL 22 SEP</div>
+      <div class="cap"><small>Laneways &amp; Skydeck</small><h3>Hosier Lane</h3></div>
+    </div>
+    <div class="rows">
+      <div class="row"><div class="t">09.00–14.30</div><div class="d">Street art <b>Hosier Lane</b>, kopi Degraves St &amp; Bourke St Mall.</div></div>
+      <div class="row"><div class="t">14.30–21.00</div><div class="d">City Circle Tram, <b>Eureka Skydeck</b> &amp; dinner Yarra River.</div></div>
+    <div class="move"><div class="lb">CARA BERPINDAH</div><div class="leg"><div class="md free">TREM GRATIS</div><div class="tx">Hotel → Hosier Lane<span>Gratis · turun Federation Square, lalu jalan 3 menit.</span></div></div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">Hosier Lane → Degraves St<span>5 menit · gang berbatu, pakai sepatu bersol karet.</span></div></div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">Degraves St → Bourke St Mall<span>6 menit · kawasan pejalan kaki bebas mobil.</span></div></div><div class="leg"><div class="md free">TREM 35</div><div class="tx">Bourke St → Melbourne Skydeck<span>Gratis sampai Flinders St, lalu jalan 8 menit menyeberang Princes Bridge.</span></div></div><div class="leg"><div class="md walk">JALAN KAKI</div><div class="tx">Skydeck → dinner Yarra River<span>5 menit · tepi sungai, datar dan terang di malam hari.</span></div></div></div><div class="locs"><div class="lb">BUKA LOKASI DI PETA</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8165272,144.9691574">📍 Hosier Lane</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8168,144.9655">📍 Degraves St</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8135,144.9646">📍 Bourke St Mall</a><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8213341,144.9646982">📍 Melbourne Skydeck</a></div></div>
+    </div>
+  </article>
+
+  <div class="chap">KEPULANGAN</div>
+  <article class="card">
+    <div class="rows" style="padding:14px">
+      <div class="row"><div class="t">11.30–14.50</div><div class="d">Check-out &amp; transfer ke <b>Melbourne Airport T2</b>. (Rabu, 23 Sep)</div></div>
+      <div class="row"><div class="t">14.50–19.15</div><div class="d">Penerbangan <b>Qantas QF39</b> menuju Jakarta, mendarat di CGK.</div></div>
+    <div class="move"><div class="lb">CARA BERPINDAH</div><div class="leg"><div class="md uber">UBER</div><div class="tx">Hotel → Melbourne Airport T2<span>A$60–75 · berangkat 3 jam sebelum terbang. Atau SkyBus ±A$23 per orang.</span></div></div></div><div class="locs"><div class="lb">BUKA LOKASI DI PETA</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.6733,144.8433">📍 Melbourne Airport T2</a></div></div>
+    </div>
+  </article>
+</section>
+
+<!-- ================= RUTE ================= -->
+<section class="page" id="p-rute">
+  <div class="note"><b>Cara pakai.</b> Tekan tombol “Buka di Maps” pada tiap titik untuk membuka navigasi langsung di ponsel. Urutan sudah disusun satu arah agar tidak bolak-balik.</div>
+
+  <div class="chap">SYDNEY</div>
+
+  <div class="day">
+    <div class="dh"><b>Hari 1 — Kedatangan</b><span>Sel, 15 Sep</span></div>
+    <div class="stop"><div class="col"><div class="dot">1</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Sydney Airport (SYD)</div><div class="tm">06.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.9399,151.1753">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.9399,151.1753&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Uber A$45–60 · 20 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">2</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Apartemen Ultimo</div><div class="tm">15.00</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8817,151.1978">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8817,151.1978&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Trem L2 A$2,24 · 12 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">3</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">The Rocks</div><div class="tm">19.00</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.859062,151.2080421">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.859062,151.2080421&travelmode=transit">➤ Rute ke sini</a></div></div></div>
+  </div>
+
+  <div class="day">
+    <div class="dh"><b>Hari 2 — Pelabuhan</b><span>Rab, 16 Sep</span></div>
+    <div class="stop"><div class="col"><div class="dot">1</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Sydney Opera House</div><div class="tm">09.00</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8567844,151.2152967">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8567844,151.2152967&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Jalan kaki · 8 menit · datar</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">2</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Circular Quay</div><div class="tm">12.00</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8611374,151.2126457">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8611374,151.2126457&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Uber A$12–15 · hindari tanjakan</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">3</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Observatory Hill Park</div><div class="tm">14.00</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8594047,151.2048859">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8594047,151.2048859&travelmode=transit">➤ Rute ke sini</a></div></div></div>
+  </div>
+
+  <div class="day">
+    <div class="dh"><b>Hari 3 — Heritage</b><span>Kam, 17 Sep</span></div>
+    <div class="stop"><div class="col"><div class="dot">1</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Paddy's Market</div><div class="tm">10.00</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8800089,151.2035622">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8800089,151.2035622&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Trem L2 · 6 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">2</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Queen Victoria Building</div><div class="tm">11.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8717161,151.2067008">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8717161,151.2067008&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Jalan · 7 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">3</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Hyde Park &amp; St Mary's</div><div class="tm">13.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8715202,151.2116243">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8715202,151.2116243&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Jalan · 4 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">4</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Australian Museum</div><div class="tm">15.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.873917,151.212702">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.873917,151.212702&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Uber A$12 · 7 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">5</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Darling Harbour</div><div class="tm">17.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.87488,151.2009">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.87488,151.2009&travelmode=transit">➤ Rute ke sini</a></div></div></div>
+  </div>
+
+  <div class="chap">MELBOURNE</div>
+
+  <div class="day">
+    <div class="dh"><b>Hari 4 — Tiba</b><span>Jum, 18 Sep</span></div>
+    <div class="stop"><div class="col"><div class="dot">1</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Melbourne Airport (MEL)</div><div class="tm">13.20</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.6733,144.8433">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.6733,144.8433&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Uber A$60–75 atau SkyBus A$23/org</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">2</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">DFO Spencer Street</div><div class="tm">15.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8188,144.9525">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8188,144.9525&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Trem gratis · 6 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">3</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Docklands Waterfront</div><div class="tm">17.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8156,144.9425">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8156,144.9425&travelmode=transit">➤ Rute ke sini</a></div></div></div>
+  </div>
+
+  <div class="day">
+    <div class="dh"><b>Hari 5 — Pasar &amp; Stasiun</b><span>Sab, 19 Sep</span></div>
+    <div class="stop"><div class="col"><div class="dot">1</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Queen Victoria Market</div><div class="tm">08.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8075798,144.956785">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8075798,144.956785&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Trem gratis · 10 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">2</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Flinders Street Station</div><div class="tm">11.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8182711,144.9670618">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8182711,144.9670618&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Jalan tepi sungai · 10 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">3</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">DFO South Wharf</div><div class="tm">13.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8246173,144.9499309">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8246173,144.9499309&travelmode=transit">➤ Rute ke sini</a></div></div></div>
+  </div>
+
+  <div class="day">
+    <div class="dh"><b>Hari 6 — CBD</b><span>Min, 20 Sep</span></div>
+    <div class="stop"><div class="col"><div class="dot">1</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">State Library Victoria</div><div class="tm">10.00</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8097255,144.9654504">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8097255,144.9654504&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Jalan 8 menit atau trem gratis</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">2</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Bourke Street Mall</div><div class="tm">12.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8135,144.9646">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8135,144.9646&travelmode=transit">➤ Rute ke sini</a></div></div></div>
+  </div>
+
+  <div class="day">
+    <div class="dh"><b>Hari 7 — St Kilda</b><span>Sen, 21 Sep</span></div>
+    <div class="stop"><div class="col"><div class="dot">1</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Royal Botanic Gardens</div><div class="tm">08.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8302443,144.9801496">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8302443,144.9801496&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Jalan · 10 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">2</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Shrine of Remembrance</div><div class="tm">12.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8305164,144.9734319">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8305164,144.9734319&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Trem (bayar) · 8 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">3</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">National Gallery of Victoria</div><div class="tm">13.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8225942,144.9689278">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8225942,144.9689278&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Trem 96 · 25 menit · lantai rendah</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">4</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">St Kilda &amp; Luna Park</div><div class="tm">15.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8678147,144.976924">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8678147,144.976924&travelmode=transit">➤ Rute ke sini</a></div></div></div>
+  </div>
+
+  <div class="day">
+    <div class="dh"><b>Hari 8 — Laneway</b><span>Sel, 22 Sep</span></div>
+    <div class="stop"><div class="col"><div class="dot">1</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Hosier Lane</div><div class="tm">09.00</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8165272,144.9691574">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8165272,144.9691574&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Jalan · 5 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">2</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Degraves Street</div><div class="tm">10.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8168,144.9655">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8168,144.9655&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">Jalan · 6 menit</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">3</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Bourke Street Mall</div><div class="tm">12.00</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8135,144.9646">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8135,144.9646&travelmode=transit">➤ Rute ke sini</a></div>
+        <div class="mode">City Circle Tram 35 gratis</div></div></div>
+    <div class="stop"><div class="col"><div class="dot">4</div><div class="ln"></div></div>
+      <div class="bd"><div class="nm">Melbourne Skydeck</div><div class="tm">16.30</div>
+        <div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8213341,144.9646982">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8213341,144.9646982&travelmode=transit">➤ Rute ke sini</a></div></div></div>
+  </div>
+</section>
+
+<!-- ================= TRANSPORT ================= -->
+<section class="page" id="p-transport">
+
+  <div class="chap">SYDNEY · BATAS A$19,30 / HARI</div>
+  <div class="tbl">
+    <div class="hd">TARIF PER ORANG</div>
+    <div class="tr hi"><div class="m"><b>Light Rail (Trem) L2/L3</b><span>Andalan utama. Lantai rata tanpa tangga, melewati QVB – Town Hall – Circular Quay</span></div><div class="p">A$2,24–3,20</div></div>
+    <div class="tr"><div class="m"><b>Kereta</b><span>Semua stasiun CBD ada lift</span></div><div class="p">A$3,20–4,50</div></div>
+    <div class="tr"><div class="m"><b>Bus</b><span>Jarang perlu, jalur trem sudah cukup</span></div><div class="p">A$2,24–3,20</div></div>
+    <div class="tr"><div class="m"><b>Feri</b><span>Opsional, dari Circular Quay untuk pemandangan</span></div><div class="p">A$6,90–10,20</div></div>
+    <div class="tr"><div class="m"><b>Uber dalam CBD</b><span>Naik ke Observatory Hill, pulang malam</span></div><div class="p">A$12–20</div></div>
+    <div class="tr hi"><div class="m"><b>Uber bandara → Ultimo</b><span>Dianjurkan hari kedatangan</span></div><div class="p">A$45–60</div></div>
+    <div class="tr"><div class="m"><b>Kereta bandara</b><span>Biaya gerbang di luar batas harian. Hindari untuk rombongan</span></div><div class="p">+A$17,92</div></div>
+  </div>
+
+  <div class="note"><b>Cukup tap kartu kredit atau ponsel.</b> Tarifnya sama persis dengan kartu Opal, tidak perlu antre beli kartu. Kartu Gold Opal senior A$2,50 hanya untuk pemegang NSW Seniors Card, jadi wisatawan asing tetap bayar tarif dewasa meski di atas 60 tahun.</div>
+
+  <div class="chap">MELBOURNE · SETENGAH HARGA</div>
+  <div class="tbl">
+    <div class="hd">TARIF PER ORANG · BATAS A$5,70 / HARI</div>
+    <div class="tr hi"><div class="m"><b>Trem di Free Tram Zone</b><span>Seluruh CBD: Flinders St, State Library, Hosier Lane, Bourke St, Docklands</span></div><div class="p">GRATIS</div></div>
+    <div class="tr hi"><div class="m"><b>City Circle Tram 35</b><span>Trem heritage kayu, tiap 12 menit, keliling CBD tanpa perlu jalan</span></div><div class="p">GRATIS</div></div>
+    <div class="tr"><div class="m"><b>Trem 96 ke St Kilda</b><span>Lantai rendah &amp; halte berperon, paling ramah lansia</span></div><div class="p">A$5,70</div></div>
+    <div class="tr"><div class="m"><b>Kereta</b><span>Tercakup batas harian</span></div><div class="p">A$5,70</div></div>
+    <div class="tr"><div class="m"><b>SkyBus bandara</b><span>Tidak ikut diskon setengah harga</span></div><div class="p">±A$23</div></div>
+    <div class="tr hi"><div class="m"><b>Uber bandara → CBD</b><span>Setara 3 tiket SkyBus, langsung sampai hotel</span></div><div class="p">A$60–75</div></div>
+    <div class="tr"><div class="m"><b>Uber CBD → St Kilda</b><span>Cadangan kalau sore sudah lelah</span></div><div class="p">A$25–35</div></div>
+  </div>
+
+  <div class="note"><b>Batas zona gratis ada di Princes Bridge.</b> Begitu trem menyeberang sungai Yarra, Anda keluar zona gratis dan wajib sudah tap Myki. Berlaku untuk NGV, Shrine, Botanic Gardens, St Kilda, dan DFO South Wharf. Denda sampai A$277 per orang.</div>
+
+  <div class="warn">
+    <h4>PERLU DICEK SEBELUM BERANGKAT</h4>
+    <p><b>Paddy's Market buka pukul 10.00</b>, bukan 08.30. Sarapan dulu di Ultimo agar tidak menunggu sambil berdiri.</p>
+    <p><b>Melbourne Star tutup permanen sejak 2021.</b> Ada rencana beroperasi lagi akhir 2026, belum ada tanggal pasti.</p>
+    <p><b>Luna Park tutup setiap Senin</b> — persis hari kunjungan Anda. Gerbang wajahnya tetap bisa difoto dari luar, gratis.</p>
+  </div>
+
+  <div class="note" style="font-size:12.5px">Foto bersumber dari Wikimedia Commons dengan lisensi bebas (Creative Commons / domain publik). Tarif per Agustus 2026, cek ulang mendekati keberangkatan.</div>
+</section>
+
+<section class="page" id="p-kuliner">
+  <div class="note"><b>Semua tempat di bawah ini halal atau tanpa babi.</b> Tetap tanyakan sertifikat halalnya di tempat, karena status bisa berubah. Beberapa restoran halal tetap menjual alkohol untuk tamu lain — kalau ingin benar-benar aman, pilih yang bertanda hijau.</div>
+  <div class="chap">SYDNEY</div>
+  <div class="area">DEKAT APARTEMEN ULTIMO &amp; HAYMARKET · HARI 1, 3, 4</div>
+  <div class="eat"><div class="nm">Temu Kangen<span class="tag id">INDONESIA</span></div><div class="ad">33 Ultimo Rd, Haymarket · buka 11.00–21.30</div><div class="ds">Masakan Indonesia, 5 menit jalan kaki dari apartemen. Paling praktis untuk makan malam pertama setelah penerbangan panjang.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.880998,151.2024763">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.880998,151.2024763&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Malay Malay Haymarket<span class="tag h">HALAL</span></div><div class="ad">Shop 5/37 Ultimo Rd · buka 11.00–23.30</div><div class="ds">Nasi lemak, rendang, dan nasi ayam Hainan. Buka sampai malam, dekat sekali dari apartemen.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8806678,151.2034402">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8806678,151.2034402&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Mamak Haymarket<span class="tag h">HALAL</span></div><div class="ad">15 Goulburn St · tutup 14.30–17.30</div><div class="ds">Roti canai dan satai Malaysia yang terkenal. Sering antre 15–30 menit, jadi datang di luar jam makan.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8777789,151.2041972">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8777789,151.2041972&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">It's Time For Thai<span class="tag h">HALAL</span></div><div class="ad">767 George St · buka 11.00–22.00</div><div class="ds">Thai halal dengan menu sangat panjang dan porsi besar. Cocok untuk makan rombongan.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8820018,151.2042025">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8820018,151.2042025&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Kebab Halal<span class="tag h">HALAL</span></div><div class="ad">849 George St · buka sampai dini hari</div><div class="ds">Kebab dan biryani murah. Berguna kalau lapar setelah pulang malam dari The Rocks.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8836022,151.2028207">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8836022,151.2028207&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="area">CBD · QVB &amp; HYDE PARK · HARI 3</div>
+  <div class="eat"><div class="nm">Pandawa Nasi Bungkus<span class="tag id">INDONESIA</span></div><div class="ad">220 Pitt St (dalam gedung Wesley Mission) · buka 11.00–21.00</div><div class="ds">Nasi bungkus Padang: pilih dua lauk dan dua sayur. Hanya 5 menit jalan dari QVB, pas untuk makan siang Hari 3.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8716769,151.2084018">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8716769,151.2084018&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">The Sambal<span class="tag id">INDONESIA</span></div><div class="ad">432 Kent St · TUTUP HARI MINGGU</div><div class="ds">Nasi goreng dan rendang. Tersedia pilihan halal dan bebas gluten. Dekat Darling Harbour.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8724199,151.2052062">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8724199,151.2052062&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Shalom Indonesian<span class="tag id">INDONESIA</span></div><div class="ad">299 Sussex St · buka 11.00–22.00</div><div class="ds">Salah satu rumah makan Indonesia tertua di Sydney. Sup buntut dan ayam bakar jadi andalan, harga bersahabat.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8746365,151.2042104">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8746365,151.2042104&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="area">CIRCULAR QUAY &amp; THE ROCKS · HARI 1 MALAM, HARI 2</div>
+  <div class="eat"><div class="nm">Neptune Palace<span class="tag h">HALAL</span></div><div class="ad">1 Alfred St, lantai 1 · buka 12.00–15.00 &amp; 17.00–22.30</div><div class="ds">Masakan Tionghoa halal tepat di seberang dermaga Circular Quay. Pilihan paling dekat saat hari Opera House.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8617166,151.2094105">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8617166,151.2094105&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="area">DARLING HARBOUR · HARI 3 MALAM</div>
+  <div class="eat"><div class="nm">Mecca Bah<span class="tag h">HALAL</span></div><div class="ad">King Street Wharf, 32-34 The Promenade · buka 11.30–21.00</div><div class="ds">Timur Tengah dengan meja tepi air. Cocok untuk makan malam terakhir di Sydney sambil melihat pelabuhan.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8677034,151.2017296">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8677034,151.2017296&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Lal Qila<span class="tag h">HALAL</span></div><div class="ad">30 Lime St, Darling Harbour · tutup 15.00–17.00</div><div class="ds">Pakistan dan India Utara, suasana lebih formal. Sebaiknya pesan meja dulu untuk rombongan.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-33.8674634,151.2020689">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-33.8674634,151.2020689&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="chap">MELBOURNE</div>
+  <div class="area">CBD · HARI 5, 6, 8</div>
+  <div class="eat"><div class="nm">D'Penyetz &amp; D'Cendol<span class="tag id">INDONESIA</span></div><div class="ad">204 Little Bourke St, Chinatown · buka 11.30–21.30</div><div class="ds">Ayam penyet, iga bakar, dan es cendol. Berlabel halal, 7 menit jalan dari Hosier Lane.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8120358,144.9665829">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8120358,144.9665829&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Nelayan Restaurant<span class="tag id">INDONESIA</span></div><div class="ad">195 Lonsdale St · buka 11.00–21.00</div><div class="ds">Gaya prasmanan: pilih nasi dan tiga lauk. Cepat dan porsinya besar, pas untuk makan siang rombongan.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8112475,144.966626">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8112475,144.966626&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Ulam Rasa<span class="tag id">INDONESIA</span></div><div class="ad">295 Exhibition St · tutup 15.00–17.00 (Senin hanya siang)</div><div class="ds">Masakan rumahan Indonesia, tempatnya nyaman dan tidak sempit. Dekat State Library.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8089035,144.9689374">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8089035,144.9689374&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Swanston Halal Food Centre<span class="tag h">HALAL</span></div><div class="ad">55 Swanston St · buka 09.00 sampai dini hari</div><div class="ds">Kari dan kebab India-Pakistan, murah dan buka sangat panjang. Hanya 3 menit dari Flinders St Station dan Hosier Lane.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8162212,144.9666954">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8162212,144.9666954&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Bowltiful Lanzhou Noodles<span class="tag h">HALAL</span></div><div class="ad">249 Swanston St · buka 10.00–02.00</div><div class="ds">Mi tarik Lanzhou berkuah sapi, dibuat langsung di depan mata. Dekat State Library, cocok untuk Hari 6.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8122336,144.9648391">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8122336,144.9648391&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Dolan Uyghur Cuisine<span class="tag h">HALAL</span></div><div class="ad">382 Lonsdale St · TUTUP HARI SENIN</div><div class="ds">Masakan Uyghur: sate kambing dan mi tarik. Porsinya besar untuk berbagi.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8124231,144.9609901">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8124231,144.9609901&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Aroma Pakistani Cuisine<span class="tag h">HALAL</span></div><div class="ad">540 Little Collins St · hanya buka malam, TUTUP SENIN</div><div class="ds">Biryani dan karahi. Sering penuh, siapkan waktu tunggu sekitar 30 menit.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8170693,144.9568976">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8170693,144.9568976&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="area">DEKAT QUEEN VICTORIA MARKET · HARI 5 PAGI</div>
+  <div class="eat"><div class="nm">Pondok Rempah<span class="tag id">INDONESIA</span></div><div class="ad">487 Elizabeth St · buka 09.00–20.30</div><div class="ds">Berlabel halal, buka dari pagi. Hanya 6 menit jalan dari Queen Victoria Market, pas untuk sarapan atau makan siang awal.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8076079,144.9598161">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8076079,144.9598161&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="area">DOCKLANDS &amp; SOUTH WHARF · HARI 4, 5 SIANG</div>
+  <div class="eat"><div class="nm">Docklands Den<span class="tag h">HALAL</span></div><div class="ad">103/5 Rakaia Way, Docklands · buka 09.00–21.00</div><div class="ds">Satu-satunya pilihan halal yang nyaman di Docklands. Buka dari pagi, ada menu sarapan dan jus segar.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8142022,144.9404883">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8142022,144.9404883&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="area">ST KILDA · HARI 7</div>
+  <div class="eat"><div class="nm">Mezza House &amp; Grill<span class="tag h">HALAL</span></div><div class="ad">191 Acland St, St Kilda · buka 11.00–21.00</div><div class="ds">Lebanon. Paling dekat dengan Luna Park, sekitar 5 menit jalan kaki. Porsinya besar untuk berbagi.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8696684,144.9803989">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8696684,144.9803989&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Al Nawab Restaurant<span class="tag h">HALAL</span></div><div class="ad">165 Fitzroy St, St Kilda · buka mulai 18.00</div><div class="ds">Pakistan dan India. Platform tandoori besar cocok untuk rombongan, tapi baru buka sore.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.858569,144.980165">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.858569,144.980165&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="eat"><div class="nm">Kebabalab<span class="tag h">HALAL</span></div><div class="ad">99 Carlisle St, St Kilda · TUTUP HARI MINGGU</div><div class="ds">Kebab Turki cepat saji, murah. Berguna kalau hanya ingin makan ringan sebelum kembali ke kota.</div><div class="gos"><a class="go" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=-37.8679909,144.9865642">📍 Lokasi</a><a class="go nav" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=-37.8679909,144.9865642&travelmode=walking">➤ Rute ke sini</a></div></div>
+  <div class="warn"><h4>TIPS PRAKTIS</h4><p><b>Hari 7 di St Kilda</b> jatuh hari Senin. Al Nawab baru buka pukul 18.00 dan Kebabalab tutup Minggu, jadi Mezza House adalah pilihan paling aman untuk makan sore.</p><p><b>Hari 3 di Sydney</b> jatuh Kamis, semua pilihan di atas buka. Tapi The Sambal tutup setiap Minggu — catat kalau jadwal bergeser.</p><p><b>Untuk sarapan</b>, kafe di Australia umumnya menyajikan bacon dan sosis babi di menu yang sama. Kalau ingin aman, pilih menu telur, roti panggang, atau alpukat, dan minta dimasak di wajan terpisah.</p></div>
+  </section>
+
+<!-- ================= NAV ================= -->
+<button class="top" id="top" aria-label="Kembali ke atas">↑</button>
+<nav>
+  <button class="on" data-p="jadwal">
+    <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Jadwal</button>
+  <button data-p="rute">
+    <svg viewBox="0 0 24 24"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>Rute</button>
+  <button data-p="kuliner">
+    <svg viewBox="0 0 24 24"><path d="M6 3v8a3 3 0 0 0 6 0V3M9 11v10"/><path d="M17 3c-1.5 2-2 4-2 6.5 0 1.4.8 2.5 2 2.5v9"/></svg>Kuliner</button>
+  <button data-p="transport">
+    <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l1.5-4M15 21l-1.5-4"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/></svg>Transport</button>
+</nav>
+
+<script>
+// tab
+var btns=document.querySelectorAll('nav button'),pages=document.querySelectorAll('.page');
+btns.forEach(function(b){
+  b.addEventListener('click',function(){
+    btns.forEach(function(x){x.classList.remove('on')});
+    pages.forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');
+    document.getElementById('p-'+b.dataset.p).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+// hitung mundur
+(function(){
+  var go=new Date('2026-09-14T17:45:00+07:00'),el=document.getElementById('count');
+  function tick(){
+    var d=Math.ceil((go-new Date())/86400000);
+    el.textContent = d>1 ? d+' HARI LAGI' : (d===1?'BESOK BERANGKAT':(d===0?'HARI KEBERANGKATAN':'PERJALANAN BERLANGSUNG'));
+  }
+  tick(); setInterval(tick,60000);
+})();
+// tombol ke atas
+var top=document.getElementById('top');
+window.addEventListener('scroll',function(){ top.classList.toggle('on',window.scrollY>600) });
+top.addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}) });
+// foto gagal muat -> biarkan gradien warna
+document.querySelectorAll('img').forEach(function(i){ i.addEventListener('error',function(){i.remove()}) });
+</script>
+</body>
+</html>
